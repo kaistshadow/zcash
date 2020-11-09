@@ -60,7 +60,7 @@ zcash_gtest_SOURCES += \
 endif
 
 zcash_gtest_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-zcash_gtest_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+zcash_gtest_CXXFLAGS = $(AM_CXXFLAGS) $(PIC_FLAGS)
 
 zcash_gtest_LDADD = \
   -lgtest -lgmock \
