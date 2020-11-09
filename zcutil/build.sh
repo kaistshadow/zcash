@@ -77,5 +77,5 @@ then
 fi
 
 ./autogen.sh
-CONFIG_SITE="$PWD/depends/$HOST/share/config.site" ./configure $CONFIGURE_FLAGS
-"$MAKE" "$@"
+CONFIG_SITE="$PWD/depends/$HOST/share/config.site" ./configure 
+# "$MAKE" "$@"
