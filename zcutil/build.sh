@@ -77,5 +77,5 @@ then
 fi
 
 ./autogen.sh
-CONFIG_SITE="$PWD/depends/$HOST/share/config.site" ./configure 
+CONFIG_SITE="$PWD/depends/$HOST/share/config.site" ./configure --disable-wallet --disable-test --disable-threadlocal --disable-zmq --with-pic
 # "$MAKE" "$@"
