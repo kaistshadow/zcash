@@ -34,6 +34,7 @@
  * \section Navigation
  * Use the buttons <code>Namespaces</code>, <code>Classes</code> or <code>Files</code> at the top of the page to start navigating the code.
  */
+#include <unistd.h>
 
 static bool fDaemon;
 

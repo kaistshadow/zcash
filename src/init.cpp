@@ -819,11 +819,12 @@ void InitLogging()
         pathDebugLen = pathDebugStr.length();
     }
 
+    /*
     pTracingHandle = tracing_init(
         pathDebugCStr, pathDebugLen,
         initialFilter.c_str(),
         fLogTimestamps);
-
+*/
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     LogPrintf("Zcash version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
 }

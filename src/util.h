@@ -17,13 +17,15 @@
 #include "compat.h"
 #include "tinyformat.h"
 #include "utiltime.h"
-
+#include <stdio.h>
 #include <atomic>
 #include <exception>
 #include <map>
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <stdarg.h>
 
 #include <boost/filesystem/path.hpp>
 #include <boost/signals2/signal.hpp>
@@ -80,10 +82,20 @@ std::string LogConfigFilter();
 bool LogAcceptCategory(const char* category);
 
 /** Print to debug.log with level INFO and category "main". */
-#define LogPrintf(...) LogPrintInner("info", "main", __VA_ARGS__)
+//#define LogPrintf(...) LogPrintInner("info", "main", __VA_ARGS__)
+template<typename ...Args>
+inline void LogPrintf(Args && ...args)
+{
+    (std::cout << "info:main" << ... << args);
+}
 
 /** Print to debug.log with level DEBUG. */
-#define LogPrint(category, ...) LogPrintInner("debug", category, __VA_ARGS__)
+//#define LogPrint(category, ...) LogPrintInner("debug", category, __VA_ARGS__)
+template<typename ...Args>
+inline void LogPrint(Args && ...args)
+{
+    (std::cout << "log:debug" << ... << args);
+}
 
 #define LogPrintInner(level, category, ...) do {           \
     std::string T_MSG = tfm::format(__VA_ARGS__);          \
@@ -93,11 +105,19 @@ bool LogAcceptCategory(const char* category);
     TracingLog(level, category, T_MSG.c_str());            \
 } while(0)
 
-#define LogError(category, ...) ([&]() {          \
-    std::string T_MSG = tfm::format(__VA_ARGS__); \
-    TracingError(category, T_MSG.c_str());        \
-    return false;                                 \
-}())
+//#define LogError(category, ...) ([&]() {          \
+//    std::string T_MSG = tfm::format(__VA_ARGS__); \
+//    TracingError(category, T_MSG.c_str());        \
+//    return false;                                 \
+//}())
+inline int LogError(const char* category, const char* format, ...)
+{
+    va_list vl;
+    va_start(vl, format);
+    auto ret=vprintf(format, vl);
+    va_end(vl);
+    return ret;
+}
 
 template<typename... Args>
 static inline bool error(const char* format, const Args&... args)
@@ -233,7 +253,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
     RenameThread(s.c_str());
     try
     {
-        LogPrintf("%s thread start\n", name);
+        LogPrintf("\n", name);
         func();
         LogPrintf("%s thread exit\n", name);
     }
