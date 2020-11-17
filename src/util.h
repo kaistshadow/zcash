@@ -84,10 +84,19 @@ bool LogAcceptCategory(const char* category);
 /** Print to debug.log with level INFO and category "main". */
 //#define LogPrintf(...) LogPrintInner("info", "main", __VA_ARGS__)
 template<typename ...Args>
-inline void LogPrintf(Args && ...args)
+inline int LogPrintf(const char* format, ...)
 {
-    (std::cout << "info:main" << ... << args);
+    printf("info:main");
+    va_list vl;
+    va_start(vl, format);
+    auto ret=vprintf(format, vl);
+    va_end(vl);
+    return ret;
 }
+//inline void LogPrintf(Args && ...args)
+//{
+//    (std::cout << "info:main" << ... << args);
+//}
 
 /** Print to debug.log with level DEBUG. */
 //#define LogPrint(category, ...) LogPrintInner("debug", category, __VA_ARGS__)
